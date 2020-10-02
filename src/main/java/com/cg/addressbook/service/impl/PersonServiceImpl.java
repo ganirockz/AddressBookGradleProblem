@@ -273,7 +273,7 @@ public class PersonServiceImpl implements PersonService {
 		}
 
 		System.out.println(String.format(
-						"Persion FirstName,%s LastName,%s" + "Address,%s City,%s " + "State,%s Zip,%s "
+						"Person FirstName,%s LastName,%s" + "Address,%s City,%s " + "State,%s Zip,%s "
 								+ "Phone %s Email %s",
 						personContact.getFirstName(), personContact.getLastName(), personContact.getAddress(),
 						personContact.getCity(), personContact.getState(), personContact.getZip(),
