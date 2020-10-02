@@ -10,7 +10,7 @@ public class AddressBook {
 	public AddressBook() {
 		personContacts = new ArrayList<PersonContact>();
 	}
-
+	
 	public void addPersonContact(PersonContact personContact) {
 		personContacts.add(personContact);
 	}

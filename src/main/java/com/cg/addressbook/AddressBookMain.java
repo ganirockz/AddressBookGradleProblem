@@ -7,60 +7,39 @@ import com.cg.addressbook.dto.*;
 import com.cg.addressbook.service.impl.*;
 
 public class AddressBookMain {
+	static Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) {
 		try {
 			System.out.println("Welcome to Address Book");
-			Scanner sc = new Scanner(System.in);
-			AddressBook book = new AddressBook();
-			PersonServiceImpl person = new PersonServiceImpl(sc);
-			List<PersonContact> list = new ArrayList<PersonContact>();
 			while (true) {
-				System.out.println("Enter the option:\n1)Add a contact\n2)Edit a contact\n3)delete a contact\n4)display contacts");
+				System.out.println("Enter the option:1)Add address book\n2)display address books");
 				int option = Integer.parseInt(sc.nextLine());
-
+				AddressBooks books = new AddressBooks();
+				AddressBookServiceImpl addressbook = new AddressBookServiceImpl(sc);
 				switch (option) {
 				case 1: {
-					System.out.println("Enter the number of persons you want to add");
-					int numberOfPersons = Integer.parseInt(sc.nextLine());
-					while (numberOfPersons-- > 0) {
-						PersonContact contact = person.createPerson();
-						book.addPersonContact(contact);
-					}
-					break;
-				}
-				case 2: {
-					System.out.println("Enter the first name of person to update the details");
-					String firstName = sc.nextLine();
-					System.out.println(firstName);
-					list = book.getPersonContacts();
-					for (PersonContact p : list) {
-						if (p.getFirstName().equals(firstName)) {
-							person.updatePerson(p);
+					System.out.println("Enter the number of address books you want to create:");
+					int numberOfBooks = Integer.parseInt(sc.nextLine());
+					String name;
+					while (numberOfBooks-- > 0) {
+						while (true) {
+							System.out.println("please enter the name of the address book");
+							name = sc.nextLine();
+							boolean IsUniqueName = books.uniqueBookName(name);
+							if (IsUniqueName) {
+								break;
+							}
 						}
+						books.addAddressBook(name, addressbook.showOptionsforAddressBook());
 					}
 					break;
 				}
-				case 3: {
-					System.out.println("Enter the first name of person to delete the details");
-					String firstName = sc.nextLine();
-					book.deletePersonContact(firstName);
-					break;
-				}
-				case 4:{
-					list = book.getPersonContacts();
-					for(PersonContact p:list) {
-						person.displayPerson(p);
-					}
-					break;
-				}
-				default: {
-					System.out.println("Enter valid option");
-				}
+				
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("Please enter the input correctly");
+			System.out.println("sorry!! you have entered a wrong input.please try again");
 		}
 	}
 
