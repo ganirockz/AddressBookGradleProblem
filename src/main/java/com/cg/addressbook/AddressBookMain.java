@@ -12,9 +12,11 @@ public class AddressBookMain {
 		try {
 			System.out.println("Welcome to Address Book");
 			while (true) {
-				System.out.println("Enter the option:1)Add address book\n2)Search persons in a city\n3)Search persons in a state\n4)Show persons by city\n"
-						+ "5)Show persons by state\n6)Show count of persons in city\n"
-						+ "7)Show count of persons in state \n8)sort based on first name");
+				System.out.println(
+						"Enter the option:1)Add address book\n2)Search persons in a city\n3)Search persons in a state\n4)Show persons by city\n"
+								+ "5)Show persons by state\n6)Show count of persons in city\n"
+								+ "7)Show count of persons in state \n8)sort based on first name\n"
+								+ "9)sort based on city\n10)sort based on state\n11)sort based on zip");
 				int option = Integer.parseInt(sc.nextLine());
 				AddressBooks books = new AddressBooks();
 				AddressBookServiceImpl addressbook = new AddressBookServiceImpl(sc);
@@ -36,39 +38,51 @@ public class AddressBookMain {
 					}
 					break;
 				}
-				case 2:{
+				case 2: {
 					System.out.println("Enter the city you want to search");
 					String city = sc.nextLine();
 					books.searchPersonsInCity(city);
 					break;
-				}	
-				case 3:{
+				}
+				case 3: {
 					System.out.println("Enter the state you want to search");
 					String state = sc.nextLine();
 					books.searchPersonsInState(state);
 					break;
 				}
-				case 4:{
+				case 4: {
 					books.showPersonsInCity();
 					break;
 				}
-				case 5:{
+				case 5: {
 					books.showPersonsInState();
 					break;
 				}
-				case 6:{
+				case 6: {
 					books.getCountByCity();
 					break;
 				}
-				case 7:{
+				case 7: {
 					books.getCountByState();
 					break;
 				}
-				case 8:{
+				case 8: {
 					books.sortByName();
 					break;
 				}
-				default:{
+				case 9: {
+					books.sortByCity();
+					break;
+				}
+				case 10: {
+					books.sortByState();
+					break;
+				}
+				case 11: {
+					books.sortByZip();
+					break;
+				}
+				default: {
 					System.out.println("Please enter a valid option");
 				}
 				}
