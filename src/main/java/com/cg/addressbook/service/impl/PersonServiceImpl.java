@@ -264,7 +264,7 @@ public class PersonServiceImpl implements PersonService {
 		}
 
 	}
-	
+
 	public void displayPerson(PersonContact personContact) {
 
 		if (personContact == null) {
