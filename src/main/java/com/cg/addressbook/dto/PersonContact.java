@@ -74,5 +74,13 @@ public class PersonContact {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
+	@Override
+	public String toString() {
+		return String.format(
+				"Person FirstName,%s LastName,%s" + "Address,%s City,%s " + "State,%s Zip,%s "
+						+ "Phone %s Email %s",
+				getFirstName(), getLastName(), getAddress(),
+				getCity(), getState(), getZip(),
+				getPhone(), getEmail());
+	}
 }

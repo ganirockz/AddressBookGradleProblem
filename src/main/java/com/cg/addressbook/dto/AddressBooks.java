@@ -11,6 +11,8 @@ public class AddressBooks {
 	List<PersonContact> PersonInState = new ArrayList<PersonContact>();
 	Map<String,List<PersonContact>> cityMap = new TreeMap<String, List<PersonContact>>();
 	Map<String,List<PersonContact>> stateMap = new TreeMap<String, List<PersonContact>>();
+	Map<String,Integer> cityCount = new TreeMap<String,Integer>();
+	Map<String,Integer> stateCount = new TreeMap<String,Integer>();
 	public AddressBooks() {
 		directory = new HashMap<>();
 	}
@@ -51,6 +53,8 @@ public class AddressBooks {
 			for(PersonContact p:list) {
 				searchPersonsInCity(p.getCity());
 				cityMap.put(p.getCity(), PersonInCity);
+				int count = (int) PersonInCity.stream().count();
+				cityCount.put(p.getCity(), count);
 			}
 		}
 		for(Map.Entry<String,List<PersonContact>> entry:cityMap.entrySet()) {
@@ -64,6 +68,8 @@ public class AddressBooks {
 			for(PersonContact p:list) {
 				searchPersonsInState(p.getState());
 				stateMap.put(p.getState(), PersonInCity);
+				int count = (int) PersonInState.stream().count();
+				cityCount.put(p.getState(), count);
 			}
 		}
 		for(Map.Entry<String,List<PersonContact>> entry:stateMap.entrySet()) {
@@ -71,4 +77,20 @@ public class AddressBooks {
 			entry.getValue().stream().peek(n->System.out.println(n));
 		}
 	}
+	public void getCountByCity() {
+		for(Map.Entry<String,Integer> entry:cityCount.entrySet()) {
+			System.out.println("The number of persons in city "+entry.getKey()+" are:"+entry.getValue());
+		}
+	}
+	public void getCountByState() {
+		for(Map.Entry<String,Integer> entry:stateCount.entrySet()) {
+			System.out.println("The number of persons in state "+entry.getKey()+" are:"+entry.getValue());
+		}
+	}
+	public void sortByName() {
+		for(Map.Entry<String,AddressBook> entry:directory.entrySet()) {
+			entry.getValue().getPersonContacts().stream().sorted(Comparator.comparing(PersonContact::getFirstName));
+		}
+	}
+	
 }
