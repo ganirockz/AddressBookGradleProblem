@@ -2,7 +2,6 @@ package com.cg.addressbook;
 
 import java.util.*;
 
-import com.cg.addressbook.dto.PersonContact;
 import com.cg.addressbook.dto.*;
 import com.cg.addressbook.service.impl.*;
 
@@ -13,7 +12,7 @@ public class AddressBookMain {
 		try {
 			System.out.println("Welcome to Address Book");
 			while (true) {
-				System.out.println("Enter the option:1)Add address book\n2)display address books");
+				System.out.println("Enter the option:1)Add address book\n2)Search persons in a city\n3)Search persons in a state");
 				int option = Integer.parseInt(sc.nextLine());
 				AddressBooks books = new AddressBooks();
 				AddressBookServiceImpl addressbook = new AddressBookServiceImpl(sc);
@@ -35,7 +34,16 @@ public class AddressBookMain {
 					}
 					break;
 				}
-				
+				case 2:{
+					System.out.println("Enter the city you want to search");
+					String city = sc.nextLine();
+					books.searchPersonsInCity(city);
+				}	
+				case 3:{
+					System.out.println("Enter the state you want to search");
+					String state = sc.nextLine();
+					books.searchPersonsInState(state);
+				}
 				}
 			}
 		} catch (Exception e) {

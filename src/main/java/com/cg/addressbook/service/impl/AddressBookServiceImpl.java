@@ -5,15 +5,20 @@ import java.util.List;
 
 import com.cg.addressbook.dto.AddressBook;
 import com.cg.addressbook.dto.PersonContact;
+import com.cg.addressbook.service.AddressBookService;
+
 import java.util.*;
-public class AddressBookServiceImpl {
+
+public class AddressBookServiceImpl implements AddressBookService {
 	public AddressBook book;
 	public List<PersonContact> list;
 	PersonServiceImpl person;
 	private Scanner sc;
+
 	public AddressBookServiceImpl(Scanner sc) {
 		this.sc = sc;
 	}
+
 	public AddressBook showOptionsforAddressBook() {
 		book = new AddressBook();
 		person = new PersonServiceImpl(sc);
@@ -28,11 +33,10 @@ public class AddressBookServiceImpl {
 				int numberOfPersons = Integer.parseInt(sc.nextLine());
 				while (numberOfPersons-- > 0) {
 					PersonContact contact = person.createPerson();
-					if(book.isUniqueName(contact.getFirstName())) {
-					book.addPersonContact(contact);
-					System.out.println("Successfully added");
-					}
-					else {
+					if (book.isUniqueName(contact.getFirstName())) {
+						book.addPersonContact(contact);
+						System.out.println("Successfully added");
+					} else {
 						System.out.println("Sorry there is a contact with the same person in our database");
 					}
 				}
@@ -67,7 +71,7 @@ public class AddressBookServiceImpl {
 				System.out.println("Thank you");
 				return book;
 			}
-			default:{
+			default: {
 				System.out.println("please enter a valid option");
 			}
 			}
