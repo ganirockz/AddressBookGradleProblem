@@ -9,7 +9,8 @@ public class AddressBooks {
 	public Map<String, AddressBook> directory;
 	List<PersonContact> PersonInCity = new ArrayList<PersonContact>();
 	List<PersonContact> PersonInState = new ArrayList<PersonContact>();
-	
+	Map<String,List<PersonContact>> cityMap = new TreeMap<String, List<PersonContact>>();
+	Map<String,List<PersonContact>> stateMap = new TreeMap<String, List<PersonContact>>();
 	public AddressBooks() {
 		directory = new HashMap<>();
 	}
@@ -32,6 +33,8 @@ public class AddressBooks {
 					.filter(isEqual)
 					.collect(Collectors.toList());
 		}
+		PersonInCity.stream().peek(n->System.out.println(n));
+
 	}
 	public void searchPersonsInState(String stateName) {
 		for(Map.Entry<String,AddressBook> entry:directory.entrySet()) {
@@ -39,6 +42,33 @@ public class AddressBooks {
 			PersonInState = entry.getValue().getPersonContacts().stream()
 					.filter(isEqual)
 					.collect(Collectors.toList());
+		}
+		PersonInState.stream().peek(n->System.out.println(n));
+	}
+	public void showPersonsInCity() {
+		for(Map.Entry<String,AddressBook> entry:directory.entrySet()) {
+			List<PersonContact> list = entry.getValue().getPersonContacts();
+			for(PersonContact p:list) {
+				searchPersonsInCity(p.getCity());
+				cityMap.put(p.getCity(), PersonInCity);
+			}
+		}
+		for(Map.Entry<String,List<PersonContact>> entry:cityMap.entrySet()) {
+			System.out.println("The persons in city "+entry.getKey()+" are:");
+			entry.getValue().stream().peek(n->System.out.println(n));
+		}
+	}
+	public void showPersonsInState() {
+		for(Map.Entry<String,AddressBook> entry:directory.entrySet()) {
+			List<PersonContact> list = entry.getValue().getPersonContacts();
+			for(PersonContact p:list) {
+				searchPersonsInState(p.getState());
+				stateMap.put(p.getState(), PersonInCity);
+			}
+		}
+		for(Map.Entry<String,List<PersonContact>> entry:stateMap.entrySet()) {
+			System.out.println("The persons in state "+entry.getKey()+" are:");
+			entry.getValue().stream().peek(n->System.out.println(n));
 		}
 	}
 }
