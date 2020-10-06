@@ -17,6 +17,16 @@ public class AddressBook {
 	public List<PersonContact> getPersonContacts(){
 		return personContacts;
 	}
+	public boolean isUniqueName(String name) {
+		boolean uniqueName = true;
+		for(PersonContact p:personContacts) {
+			if(p.getFirstName().equals(name)) {
+				uniqueName = false;
+				break;
+			}
+		}
+		return uniqueName;
+	}
 	public void deletePersonContact(String firstName) {
 		int flag = 0;
 		for(int i=0;i<personContacts.size();i++) {

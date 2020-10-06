@@ -28,7 +28,13 @@ public class AddressBookServiceImpl {
 				int numberOfPersons = Integer.parseInt(sc.nextLine());
 				while (numberOfPersons-- > 0) {
 					PersonContact contact = person.createPerson();
+					if(book.isUniqueName(contact.getFirstName())) {
 					book.addPersonContact(contact);
+					System.out.println("Successfully added");
+					}
+					else {
+						System.out.println("Sorry there is a contact with the same person in our database");
+					}
 				}
 				break;
 			}
