@@ -264,7 +264,7 @@ public class PersonServiceImpl implements PersonService {
 		}
 
 	}
-
+	
 	public void displayPerson(PersonContact personContact) {
 
 		if (personContact == null) {
@@ -272,11 +272,6 @@ public class PersonServiceImpl implements PersonService {
 			return;
 		}
 
-		System.out.println(String.format(
-						"Person FirstName,%s LastName,%s" + "Address,%s City,%s " + "State,%s Zip,%s "
-								+ "Phone %s Email %s",
-						personContact.getFirstName(), personContact.getLastName(), personContact.getAddress(),
-						personContact.getCity(), personContact.getState(), personContact.getZip(),
-						personContact.getPhone(), personContact.getEmail()));
+		System.out.println(personContact);
 	}
 }

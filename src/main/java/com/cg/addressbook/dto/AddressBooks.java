@@ -87,5 +87,10 @@ public class AddressBooks {
 			System.out.println("The number of persons in state "+entry.getKey()+" are:"+entry.getValue());
 		}
 	}
+	public void sortByName() {
+		for(Map.Entry<String,AddressBook> entry:directory.entrySet()) {
+			entry.getValue().getPersonContacts().stream().sorted(Comparator.comparing(PersonContact::getFirstName));
+		}
+	}
 	
 }
