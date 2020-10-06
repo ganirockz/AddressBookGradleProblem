@@ -10,12 +10,22 @@ public class AddressBook {
 	public AddressBook() {
 		personContacts = new ArrayList<PersonContact>();
 	}
-
+	
 	public void addPersonContact(PersonContact personContact) {
 		personContacts.add(personContact);
 	}
 	public List<PersonContact> getPersonContacts(){
 		return personContacts;
+	}
+	public boolean isUniqueName(String name) {
+		boolean uniqueName = true;
+		for(PersonContact p:personContacts) {
+			if(p.getFirstName().equals(name)) {
+				uniqueName = false;
+				break;
+			}
+		}
+		return uniqueName;
 	}
 	public void deletePersonContact(String firstName) {
 		int flag = 0;
