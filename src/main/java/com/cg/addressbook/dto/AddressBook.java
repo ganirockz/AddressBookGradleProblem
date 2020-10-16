@@ -1,11 +1,15 @@
 package com.cg.addressbook.dto;
 
+import com.cg.addressbook.service.*;
+import com.cg.addressbook.service.impl.AddressBookFileIOServiceImpl;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class AddressBook {
 
 	private List<PersonContact> personContacts;
+	private AddressBookFileIOService addressBookFileIoService = new AddressBookFileIOServiceImpl();
 
 	public AddressBook() {
 		personContacts = new ArrayList<PersonContact>();
@@ -45,4 +49,11 @@ public class AddressBook {
 		}
 	}
 
+	public void writeToFile() {
+		addressBookFileIoService.writeData(personContacts);
+	}
+
+	public void readFromFile() {
+		addressBookFileIoService.printData();
+	}
 }

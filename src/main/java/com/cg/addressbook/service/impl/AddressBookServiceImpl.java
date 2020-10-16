@@ -25,7 +25,7 @@ public class AddressBookServiceImpl implements AddressBookService {
 		list = new ArrayList<PersonContact>();
 		while (true) {
 			System.out.println(
-					"Enter the option:\n1)Add a contact\n2)Edit a contact\n3)delete a contact\n4)display contacts\n5)exit");
+					"Enter the option:\n1)Add a contact\n2)Edit a contact\n3)delete a contact\n4)display contacts\n5)Add to file\n6)print Data in file\n6)exit");
 			int option = Integer.parseInt(sc.nextLine());
 			switch (option) {
 			case 1: {
@@ -67,7 +67,14 @@ public class AddressBookServiceImpl implements AddressBookService {
 				}
 				break;
 			}
-			case 5: {
+			case 5:{
+				book.writeToFile();
+				break;
+			}
+			case 6:{
+				book.readFromFile();
+			}
+			case 7: {
 				System.out.println("Thank you");
 				return book;
 			}
