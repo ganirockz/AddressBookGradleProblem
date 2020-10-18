@@ -2,12 +2,15 @@ package com.cg.addressbook.service.impl;
 
 import com.cg.addressbook.dto.*;
 import com.cg.addressbook.service.AddressBookFileIOService;
+import com.google.gson.Gson;
 import com.opencsv.*;
+import com.opencsv.bean.*;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -69,18 +72,10 @@ public class AddressBookFileIOServiceImpl implements AddressBookFileIOService {
 			// CSVReader csvReader = new CSVReader(reader);
 			// String[] nextRecord;
 			while ((nextRecord = csvReader.readNext()) != null) {
-				/*
-				 * System.out.print("First Name: " + nextRecord[0]);
-				 * System.out.print("Last Name: " + nextRecord[1]); System.out.print("Address:"
-				 * + nextRecord[2]); System.out.print("City:" + nextRecord[3]);
-				 * System.out.print("State:" + nextRecord[4]); System.out.print("zip:" +
-				 * nextRecord[5]); System.out.print("phone:" + nextRecord[6]);
-				 * System.out.print("Email:" + nextRecord[7]); System.out.println();
-				 */
-				for (String cell : nextRecord) { 
-	                System.out.print(cell + " "); 
-	            } 
-	            System.out.println();
+				for (String cell : nextRecord) {
+					System.out.print(cell + " ");
+				}
+				System.out.println();
 			}
 			csvReader.close();
 		} catch (IOException e) {
@@ -96,6 +91,30 @@ public class AddressBookFileIOServiceImpl implements AddressBookFileIOService {
 				System.out.print((char) c);
 			}
 			fis.close();
+		} catch (IOException e) {
+			System.out.println("Exception Encountered");
+		}
+	}
+
+	public void writeDataCSVToJson() {
+		String personCSVPath = "./personList.csv";
+		String personJSONPath = "./personList.json";
+		try {
+			Reader reader = Files.newBufferedReader(Paths.get(personCSVPath));
+			CsvToBeanBuilder<PersonContact> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
+			csvToBeanBuilder.withType(PersonContact.class);
+			csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
+			CsvToBean<PersonContact> csvToBean = csvToBeanBuilder.build();
+			List<PersonContact> csvUser = csvToBean.parse();
+			Gson gson = new Gson();
+			String json = gson.toJson(csvUser);
+			FileWriter writer = new FileWriter(personJSONPath);
+			writer.write(json);
+			writer.close();
+			BufferedReader br = new BufferedReader(new FileReader(personJSONPath));
+			PersonContact[] usrObj = gson.fromJson(br, PersonContact[].class);
+			List<PersonContact> csvUserList = Arrays.asList(usrObj);
+			br.close();
 		} catch (IOException e) {
 			System.out.println("Exception Encountered");
 		}

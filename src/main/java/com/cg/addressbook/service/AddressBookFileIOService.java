@@ -19,6 +19,8 @@ public interface AddressBookFileIOService {
 
 	public void printData();
 
+	public void writeDataCSVToJson();
+
 	public void readDataFromCSV();
 
 	public void writeDataToCSV(List<PersonContact> personContactList)
