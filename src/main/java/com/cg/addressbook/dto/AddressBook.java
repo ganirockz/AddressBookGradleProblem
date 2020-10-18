@@ -74,4 +74,7 @@ public class AddressBook {
 	public void readCSVFile() {
 		addressBookFileIoService.readDataFromCSV();
 	}
+	public void writeCSVtoJSON() {
+		addressBookFileIoService.writeDataCSVToJson();
+	}
 }

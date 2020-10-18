@@ -40,5 +40,6 @@ public class AddressBookFileIoServiceTest {
 			e.printStackTrace();
 		}
 		personFileIOService.readDataFromCSV();
+		personFileIOService.writeDataCSVToJson();
 	}
 }

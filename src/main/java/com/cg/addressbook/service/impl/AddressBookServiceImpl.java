@@ -26,7 +26,7 @@ public class AddressBookServiceImpl implements AddressBookService {
 		while (true) {
 			System.out.println(
 					"Enter the option:\n1)Add a contact\n2)Edit a contact\n3)delete a contact\n4)display contacts\n5)Add to file\n"
-							+ "6)print Data in file\n7)Add to CSV File\n8)Read CSV\n9)exit");
+							+ "6)print Data in file\n7)Add to CSV File\n8)Read CSV9)Write From CSV To Json\n10)exit");
 			int option = Integer.parseInt(sc.nextLine());
 			switch (option) {
 			case 1: {
@@ -85,6 +85,10 @@ public class AddressBookServiceImpl implements AddressBookService {
 				break;
 			}
 			case 9: {
+				book.writeCSVtoJSON();
+				break;
+			}
+			case 10: {
 				System.out.println("Thank you");
 				return book;
 			}
