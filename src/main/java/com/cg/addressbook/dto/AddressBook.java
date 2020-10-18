@@ -2,6 +2,8 @@ package com.cg.addressbook.dto;
 
 import com.cg.addressbook.service.*;
 import com.cg.addressbook.service.impl.AddressBookFileIOServiceImpl;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,5 +57,21 @@ public class AddressBook {
 
 	public void readFromFile() {
 		addressBookFileIoService.printData();
+	}
+
+	public void writeToCSVFile() {
+		try {
+			addressBookFileIoService.writeDataToCSV(personContacts);
+		} catch (CsvDataTypeMismatchException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CsvRequiredFieldEmptyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void readCSVFile() {
+		addressBookFileIoService.readDataFromCSV();
 	}
 }
