@@ -109,4 +109,24 @@ public class AddressBookServiceImpl implements AddressBookService {
 		list = addressBookDBService.readDBData();
 		return list;
 	}
+
+	public void updatePersonData(String firstName, String phoneNumber) {
+		int rowsAffected = addressBookDBService.updatePersonContact(firstName, phoneNumber);
+		if (rowsAffected == 1) {
+			for (PersonContact p : list) {
+				if (p.getFirstName().equals(firstName)) {
+					p.setPhone(phoneNumber);
+					break;
+				}
+			}
+		}
+	}
+
+	public boolean checkForAvailabiltyOfPerson(String firstName) {
+		for (PersonContact p : list) {
+			if (p.getFirstName().equals(firstName))
+				return true;
+		}
+		return false;
+	}
 }
