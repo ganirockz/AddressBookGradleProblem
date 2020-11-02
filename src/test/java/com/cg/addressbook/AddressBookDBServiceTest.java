@@ -1,5 +1,6 @@
 package com.cg.addressbook;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.*;
@@ -8,7 +9,7 @@ import com.cg.addressbook.dto.PersonContact;
 import com.cg.addressbook.service.impl.AddressBookServiceImpl;
 
 public class AddressBookDBServiceTest {
-	
+
 	public void givenAddressBookInDB_WhenRetrieved_ShouldMatchPersonsCount() {
 		AddressBookServiceImpl addressBookService = new AddressBookServiceImpl();
 		List<PersonContact> personsData = addressBookService.readPersonData();
@@ -16,7 +17,6 @@ public class AddressBookDBServiceTest {
 		Assert.assertEquals(4, personsData.size());
 	}
 
-	@Test
 	public void givenAddressBookInDB_WhenUpdated_ShouldMatchPersonsCount() {
 		AddressBookServiceImpl addressBookService = new AddressBookServiceImpl();
 		List<PersonContact> personsData = addressBookService.readPersonData();
@@ -24,4 +24,15 @@ public class AddressBookDBServiceTest {
 		boolean result = addressBookService.checkForAvailabiltyOfPerson("Mark");
 		Assert.assertTrue(result);
 	}
+
+	@Test
+	public void givenAddressBookInDB_WhenRetrievedBasedOnCity_ShouldMatchPersonsCount() {
+		AddressBookServiceImpl addressBookService = new AddressBookServiceImpl();
+		List<PersonContact> personsData = addressBookService.readPersonData();
+		LocalDate date = LocalDate.of(2020, 01, 01);
+		List<PersonContact> personDataBasedOnDate = addressBookService.getEmployeeJoinedAfterDate(date);
+		System.out.println(personDataBasedOnDate);
+		Assert.assertEquals(2, personDataBasedOnDate.size());
+	}
+
 }
