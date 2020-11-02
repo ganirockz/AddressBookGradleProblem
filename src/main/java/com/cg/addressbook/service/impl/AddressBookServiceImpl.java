@@ -14,9 +14,14 @@ public class AddressBookServiceImpl implements AddressBookService {
 	public List<PersonContact> list;
 	PersonServiceImpl person;
 	private Scanner sc;
+	AddressBookDBServiceImpl addressBookDBService = null;
 
 	public AddressBookServiceImpl(Scanner sc) {
 		this.sc = sc;
+	}
+
+	public AddressBookServiceImpl() {
+		addressBookDBService = new AddressBookDBServiceImpl();
 	}
 
 	public AddressBook showOptionsforAddressBook() {
@@ -98,5 +103,10 @@ public class AddressBookServiceImpl implements AddressBookService {
 			}
 		}
 
+	}
+
+	public List<PersonContact> readPersonData() {
+		list = addressBookDBService.readDBData();
+		return list;
 	}
 }
