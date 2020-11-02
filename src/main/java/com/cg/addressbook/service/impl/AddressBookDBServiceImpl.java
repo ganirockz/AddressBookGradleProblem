@@ -2,6 +2,7 @@ package com.cg.addressbook.service.impl;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -46,8 +47,8 @@ public class AddressBookDBServiceImpl {
 			e.printStackTrace();
 		}
 		return personDataList;
-	}
-
+	}	
+	
 	private Connection getConnection() throws SQLException {
 		String jdbcURL = "jdbc:mysql://localhost:3306/address_book_service?useSSL=false";
 		String userName = "root";
@@ -59,4 +60,14 @@ public class AddressBookDBServiceImpl {
 		return connection;
 	}
 
+	public int updatePersonContact(String firstName, String phoneNumber) {
+		String sql = String.format("update person_contact set phone_number= '%s' where first_name = '%s';", phoneNumber, firstName);
+		try (Connection connection = this.getConnection()) {
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			return stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 }
