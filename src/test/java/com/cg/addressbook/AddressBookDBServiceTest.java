@@ -25,8 +25,7 @@ public class AddressBookDBServiceTest {
 		Assert.assertTrue(result);
 	}
 
-	@Test
-	public void givenAddressBookInDB_WhenRetrievedBasedOnCity_ShouldMatchPersonsCount() {
+	public void givenAddressBookInDB_WhenRetrievedBasedOnDate_ShouldMatchPersonsCount() {
 		AddressBookServiceImpl addressBookService = new AddressBookServiceImpl();
 		List<PersonContact> personsData = addressBookService.readPersonData();
 		LocalDate date = LocalDate.of(2020, 01, 01);
@@ -35,4 +34,12 @@ public class AddressBookDBServiceTest {
 		Assert.assertEquals(2, personDataBasedOnDate.size());
 	}
 
+	@Test
+	public void givenAddressBookInDB_WhenRetrievedBasedOnCity_ShouldMatchPersonsCount() {
+		AddressBookServiceImpl addressBookService = new AddressBookServiceImpl();
+		List<PersonContact> personsData = addressBookService.readPersonData();
+		List<PersonContact> personDataBasedonCity = addressBookService.getEmployeesInACity("Lakewood");
+		System.out.println(personDataBasedonCity);
+		Assert.assertEquals(1, personDataBasedonCity.size());
+	}
 }
