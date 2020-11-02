@@ -7,6 +7,7 @@ import com.cg.addressbook.dto.AddressBook;
 import com.cg.addressbook.dto.PersonContact;
 import com.cg.addressbook.service.AddressBookService;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class AddressBookServiceImpl implements AddressBookService {
@@ -129,4 +130,10 @@ public class AddressBookServiceImpl implements AddressBookService {
 		}
 		return false;
 	}
+
+	public List<PersonContact> getEmployeeJoinedAfterDate(LocalDate date) {
+		List<PersonContact> personList = addressBookDBService.getEmployeeBasedOnJoiningDate(date);
+		return personList;
+	}
+
 }
