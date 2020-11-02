@@ -18,6 +18,7 @@ public class AddressBookDBServiceImpl {
 		String sql = "select person_contact.first_name,person_contact.last_name,person_contact.phone_number,person_contact.email,person_address.address,person_address.city,person_address.state,person_address.zip from person_contact inner join person_address on person_contact.first_name = person_address.first_name;";
 		List<PersonContact> personDataList = new ArrayList<>();
 		try (Connection connection = this.getConnection()) {
+			connection.setAutoCommit(false);
 			Statement statement = connection.createStatement();
 			ResultSet result = statement.executeQuery(sql);
 			try {
@@ -42,6 +43,7 @@ public class AddressBookDBServiceImpl {
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
+				connection.rollback();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -64,6 +66,7 @@ public class AddressBookDBServiceImpl {
 		String sql = String.format("update person_contact set phone_number= '%s' where first_name = '%s';", phoneNumber,
 				firstName);
 		try (Connection connection = this.getConnection()) {
+			connection.setAutoCommit(false);
 			PreparedStatement stmt = connection.prepareStatement(sql);
 			return stmt.executeUpdate();
 		} catch (SQLException e) {
@@ -72,12 +75,13 @@ public class AddressBookDBServiceImpl {
 		return 0;
 	}
 
-	public List<PersonContact> getEmployeeBasedOnJoiningDate(LocalDate date) {
+	public List<PersonContact> getPersonsBasedOnJoiningDate(LocalDate date) {
 		String sql = String.format(
 				"select person_contact.first_name,person_contact.last_name,person_contact.phone_number,person_contact.email,person_address.address,person_address.city,person_address.state,person_address.zip from person_contact inner join person_address on person_contact.first_name = person_address.first_name where person_contact.date_added > '%s';",
 				date.toString());
 		List<PersonContact> personDataList = new ArrayList<>();
 		try (Connection connection = this.getConnection()) {
+			connection.setAutoCommit(false);
 			Statement statement = connection.createStatement();
 			ResultSet result = statement.executeQuery(sql);
 			try {
@@ -102,6 +106,7 @@ public class AddressBookDBServiceImpl {
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
+				connection.rollback();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -109,12 +114,13 @@ public class AddressBookDBServiceImpl {
 		return personDataList;
 	}
 
-	public List<PersonContact> getEmployeeBasedOnCity(String cityName) {
+	public List<PersonContact> getPersonsBasedOnCity(String cityName) {
 		String sql = String.format(
 				"select person_contact.first_name,person_contact.last_name,person_contact.phone_number,person_contact.email,person_address.address,person_address.city,person_address.state,person_address.zip from person_contact inner join person_address on person_contact.first_name = person_address.first_name where person_address.city = '%s';",
 				cityName);
 		List<PersonContact> personDataList = new ArrayList<>();
 		try (Connection connection = this.getConnection()) {
+			connection.setAutoCommit(false);
 			Statement statement = connection.createStatement();
 			ResultSet result = statement.executeQuery(sql);
 			try {
@@ -139,10 +145,69 @@ public class AddressBookDBServiceImpl {
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
+				connection.rollback();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return personDataList;
+	}
+
+	public int addPersonToDB(PersonContact person) {
+		int empId = -1;
+
+		Connection connection = null;
+		try {
+			connection = this.getConnection();
+			connection.setAutoCommit(false);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try (Statement statement = connection.createStatement()) {
+			LocalDate date = LocalDate.now();
+			String sql = String.format(
+					"insert into person_contact (first_name,last_name,phone_number,email,date_added) values ('%s','%s','%s','%s','%s');",
+					person.getFirstName(), person.getLastName(), person.getPhone(), person.getEmail(), date.toString());
+			int rowsAffected = statement.executeUpdate(sql, statement.RETURN_GENERATED_KEYS);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				connection.rollback();
+				return -1;
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		int rowsAffected = 0;
+		try (Statement statement = connection.createStatement()) {
+			String sql = String.format(
+					"insert into person_address (first_name,address,city,state,zip) values ('%s','%s','%s','%s','%s');",
+					person.getFirstName(), person.getAddress(), person.getCity(), person.getState(), person.getZip());
+			rowsAffected = statement.executeUpdate(sql, statement.RETURN_GENERATED_KEYS);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		try {
+			try {
+				connection.commit();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return rowsAffected;
 	}
 }

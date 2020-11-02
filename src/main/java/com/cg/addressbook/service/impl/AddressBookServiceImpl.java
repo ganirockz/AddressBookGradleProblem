@@ -131,14 +131,22 @@ public class AddressBookServiceImpl implements AddressBookService {
 		return false;
 	}
 
-	public List<PersonContact> getEmployeeJoinedAfterDate(LocalDate date) {
-		List<PersonContact> personList = addressBookDBService.getEmployeeBasedOnJoiningDate(date);
+	public List<PersonContact> getPersonsJoinedAfterDate(LocalDate date) {
+		List<PersonContact> personList = addressBookDBService.getPersonsBasedOnJoiningDate(date);
 		return personList;
 	}
 
-	public List<PersonContact> getEmployeesInACity(String cityName) {
-		List<PersonContact> personList = addressBookDBService.getEmployeeBasedOnCity(cityName);
+	public List<PersonContact> getPersonsInACity(String cityName) {
+		List<PersonContact> personList = addressBookDBService.getPersonsBasedOnCity(cityName);
 		return personList;
+	}
+
+	public void addPersonsToDB(PersonContact person2) {
+		int rowsAffected = addressBookDBService.addPersonToDB(person2);
+		if (rowsAffected > 0) {
+			list.add(person2);
+		}
+
 	}
 
 }

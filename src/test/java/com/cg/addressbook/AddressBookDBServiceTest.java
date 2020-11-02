@@ -29,17 +29,34 @@ public class AddressBookDBServiceTest {
 		AddressBookServiceImpl addressBookService = new AddressBookServiceImpl();
 		List<PersonContact> personsData = addressBookService.readPersonData();
 		LocalDate date = LocalDate.of(2020, 01, 01);
-		List<PersonContact> personDataBasedOnDate = addressBookService.getEmployeeJoinedAfterDate(date);
+		List<PersonContact> personDataBasedOnDate = addressBookService.getPersonsJoinedAfterDate(date);
 		System.out.println(personDataBasedOnDate);
 		Assert.assertEquals(2, personDataBasedOnDate.size());
 	}
 
-	@Test
 	public void givenAddressBookInDB_WhenRetrievedBasedOnCity_ShouldMatchPersonsCount() {
 		AddressBookServiceImpl addressBookService = new AddressBookServiceImpl();
 		List<PersonContact> personsData = addressBookService.readPersonData();
-		List<PersonContact> personDataBasedonCity = addressBookService.getEmployeesInACity("Lakewood");
+		List<PersonContact> personDataBasedonCity = addressBookService.getPersonsInACity("Lakewood");
 		System.out.println(personDataBasedonCity);
 		Assert.assertEquals(1, personDataBasedonCity.size());
+	}
+
+	@Test
+	public void givenPersonDetails_addToDB_shouldMatchPersonCount() {
+		AddressBookServiceImpl addressBookService = new AddressBookServiceImpl();
+		List<PersonContact> personsData = addressBookService.readPersonData();
+		PersonContact person = new PersonContact();
+		person.setFirstName("Ganesh");
+		person.setLastName("Rapeti");
+		person.setAddress("2124,adfeas");
+		person.setCity("Lakewood");
+		person.setState("North ros");
+		person.setEmail("ganesh@abc.co");
+		person.setPhone("9877665678");
+		person.setZip("987654");
+		addressBookService.addPersonsToDB(person);
+		boolean result = addressBookService.checkForAvailabiltyOfPerson("Ganesh");
+		Assert.assertTrue(result);
 	}
 }
