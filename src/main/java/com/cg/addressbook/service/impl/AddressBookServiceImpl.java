@@ -136,4 +136,9 @@ public class AddressBookServiceImpl implements AddressBookService {
 		return personList;
 	}
 
+	public List<PersonContact> getEmployeesInACity(String cityName) {
+		List<PersonContact> personList = addressBookDBService.getEmployeeBasedOnCity(cityName);
+		return personList;
+	}
+
 }

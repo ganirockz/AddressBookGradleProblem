@@ -108,4 +108,41 @@ public class AddressBookDBServiceImpl {
 		}
 		return personDataList;
 	}
+
+	public List<PersonContact> getEmployeeBasedOnCity(String cityName) {
+		String sql = String.format(
+				"select person_contact.first_name,person_contact.last_name,person_contact.phone_number,person_contact.email,person_address.address,person_address.city,person_address.state,person_address.zip from person_contact inner join person_address on person_contact.first_name = person_address.first_name where person_address.city = '%s';",
+				cityName);
+		List<PersonContact> personDataList = new ArrayList<>();
+		try (Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			ResultSet result = statement.executeQuery(sql);
+			try {
+				while (result.next()) {
+					String firstName = result.getString("first_name");
+					String lastName = result.getString("last_name");
+					String phoneNumber = result.getString("phone_number");
+					String email = result.getString("email");
+					String address = result.getString("address");
+					String city = result.getString("city");
+					String state = result.getString("state");
+					String zip = result.getString("zip");
+					PersonContact personContact = new PersonContact();
+					personContact.setFirstName(firstName);
+					personContact.setLastName(lastName);
+					personContact.setPhone(phoneNumber);
+					personContact.setAddress(address);
+					personContact.setCity(city);
+					personContact.setState(state);
+					personContact.setZip(zip);
+					personDataList.add(personContact);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return personDataList;
+	}
 }
