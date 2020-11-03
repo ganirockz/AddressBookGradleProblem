@@ -1,5 +1,7 @@
 package com.cg.addressbook.dto;
 
+import java.util.Objects;
+
 public class PersonContact {
 
 	private String firstName;
@@ -73,6 +75,11 @@ public class PersonContact {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(firstName, lastName, phone);
 	}
 
 	@Override

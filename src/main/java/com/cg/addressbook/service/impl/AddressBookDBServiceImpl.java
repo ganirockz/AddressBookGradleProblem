@@ -51,7 +51,7 @@ public class AddressBookDBServiceImpl {
 		return personDataList;
 	}
 
-	private Connection getConnection() throws SQLException {
+	private synchronized Connection getConnection() throws SQLException {
 		String jdbcURL = "jdbc:mysql://localhost:3306/address_book_service?useSSL=false";
 		String userName = "root";
 		String password = "@GaniMySql02";

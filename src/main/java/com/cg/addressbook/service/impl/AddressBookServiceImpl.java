@@ -1,8 +1,5 @@
 package com.cg.addressbook.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.cg.addressbook.dto.AddressBook;
 import com.cg.addressbook.dto.PersonContact;
 import com.cg.addressbook.service.AddressBookService;
@@ -147,6 +144,27 @@ public class AddressBookServiceImpl implements AddressBookService {
 			list.add(person2);
 		}
 
+	}
+
+	public void addPersonsDataToDB(List<PersonContact> personList) {
+		Map<Integer, Boolean> personAdditionStatus = new HashMap<Integer, Boolean>();
+		personList.forEach(personData -> {
+			Runnable task = () -> {
+				personAdditionStatus.put(personData.hashCode(), false);
+				System.out.println("person Being Updated: " + Thread.currentThread().getName());
+				this.addPersonsToDB(personData);
+				System.out.println("person Updated: " + Thread.currentThread().getName());
+				personAdditionStatus.put(personData.hashCode(), true);
+			};
+			Thread thread = new Thread(task, personData.getFirstName());
+			thread.start();
+		});
+		while (personAdditionStatus.containsValue(false)) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+			}
+		}
 	}
 
 }
