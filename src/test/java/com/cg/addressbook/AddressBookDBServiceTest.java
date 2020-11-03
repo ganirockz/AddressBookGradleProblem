@@ -1,6 +1,7 @@
 package com.cg.addressbook;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.*;
@@ -42,7 +43,6 @@ public class AddressBookDBServiceTest {
 		Assert.assertEquals(1, personDataBasedonCity.size());
 	}
 
-	@Test
 	public void givenPersonDetails_addToDB_shouldMatchPersonCount() {
 		AddressBookServiceImpl addressBookService = new AddressBookServiceImpl();
 		List<PersonContact> personsData = addressBookService.readPersonData();
@@ -58,5 +58,33 @@ public class AddressBookDBServiceTest {
 		addressBookService.addPersonsToDB(person);
 		boolean result = addressBookService.checkForAvailabiltyOfPerson("Ganesh");
 		Assert.assertTrue(result);
+	}
+
+	@Test
+	public void givenMultiplePersonDetails_addToDB_shouldMatchPersonCount() {
+		AddressBookServiceImpl addressBookService = new AddressBookServiceImpl();
+		List<PersonContact> personsData = addressBookService.readPersonData();
+		PersonContact person1 = new PersonContact();
+		person1.setFirstName("Ramesh");
+		person1.setLastName("Rapeti");
+		person1.setAddress("12Anad");
+		person1.setCity("anaka");
+		person1.setState("andhra");
+		person1.setZip("123456");
+		person1.setPhone("91 9812345678");
+		person1.setEmail("gani.abc@bl.co.in");
+		PersonContact person2 = new PersonContact();
+		person2.setFirstName("Ganish");
+		person2.setLastName("Rapti");
+		person2.setAddress("12nad");
+		person2.setCity("anaa");
+		person2.setState("anhra");
+		person2.setZip("12356");
+		person2.setPhone("919812345678");
+		person2.setEmail("gai.abc@bl.co.in");
+		PersonContact[] addressBook = { person1, person2 };
+		addressBookService.addPersonsDataToDB(Arrays.asList(addressBook));
+		personsData = addressBookService.readPersonData();
+		Assert.assertEquals(3, personsData.size());
 	}
 }
