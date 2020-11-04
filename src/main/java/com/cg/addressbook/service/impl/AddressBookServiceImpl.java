@@ -22,6 +22,11 @@ public class AddressBookServiceImpl implements AddressBookService {
 		addressBookDBService = new AddressBookDBServiceImpl();
 	}
 
+	public AddressBookServiceImpl(List<PersonContact> personList) {
+		this();
+		list = new ArrayList<PersonContact>(personList);
+	}
+
 	public AddressBook showOptionsforAddressBook() {
 		book = new AddressBook();
 		person = new PersonServiceImpl(sc);
@@ -165,6 +170,14 @@ public class AddressBookServiceImpl implements AddressBookService {
 			} catch (InterruptedException e) {
 			}
 		}
+	}
+
+	public long countEntries() {
+		return list.size();
+	}
+
+	public void addPerson(PersonContact person2) {
+		list.add(person2);
 	}
 
 }

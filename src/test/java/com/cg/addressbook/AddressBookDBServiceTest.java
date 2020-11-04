@@ -8,6 +8,10 @@ import org.junit.*;
 
 import com.cg.addressbook.dto.PersonContact;
 import com.cg.addressbook.service.impl.AddressBookServiceImpl;
+import com.google.gson.Gson;
+
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
 
 public class AddressBookDBServiceTest {
 
@@ -60,7 +64,6 @@ public class AddressBookDBServiceTest {
 		Assert.assertTrue(result);
 	}
 
-	@Test
 	public void givenMultiplePersonDetails_addToDB_shouldMatchPersonCount() {
 		AddressBookServiceImpl addressBookService = new AddressBookServiceImpl();
 		List<PersonContact> personsData = addressBookService.readPersonData();
@@ -85,6 +88,7 @@ public class AddressBookDBServiceTest {
 		PersonContact[] addressBook = { person1, person2 };
 		addressBookService.addPersonsDataToDB(Arrays.asList(addressBook));
 		personsData = addressBookService.readPersonData();
-		Assert.assertEquals(3, personsData.size());
+		Assert.assertEquals(5, personsData.size());
 	}
+
 }

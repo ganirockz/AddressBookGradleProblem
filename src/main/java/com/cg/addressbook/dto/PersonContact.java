@@ -3,7 +3,7 @@ package com.cg.addressbook.dto;
 import java.util.Objects;
 
 public class PersonContact {
-
+	int id;
 	private String firstName;
 	private String lastName;
 	private String address;
@@ -12,6 +12,22 @@ public class PersonContact {
 	private String zip;
 	private String phone;
 	private String email;
+
+	public PersonContact() {
+	}
+
+	public PersonContact(int id, String firstName, String lastName, String address, String city, String state,
+			String zip, String phone, String email) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.zip = zip;
+		this.phone = phone;
+		this.email = email;
+		this.id = id;
+	}
 
 	public String getFirstName() {
 		return firstName;
