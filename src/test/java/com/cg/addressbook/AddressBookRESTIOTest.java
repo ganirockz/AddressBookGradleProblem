@@ -82,7 +82,6 @@ public class AddressBookRESTIOTest {
 		Assert.assertEquals(7, entries);
 	}
 	
-	@Test
 	public void givenNewPhoneNumberOfPerson_WhenUpdated_shouldMatchWith200ResponseAndCount() {
 		PersonContact[] arrayOfPersons = getPesonList();
 		AddressBookServiceImpl addressBookService;
@@ -96,5 +95,22 @@ public class AddressBookRESTIOTest {
 		Response response = request.put("/persons/" + personData.id);
 		int statusCode = response.getStatusCode();
 		Assert.assertEquals(200, statusCode);
+	}
+	
+	@Test
+	public void givenPersonData_WhenDeleted_shouldMatchWith200ResponseCode() {
+		PersonContact[] arrayOfPersons = getPesonList();
+		AddressBookServiceImpl addressBookService;
+		addressBookService = new AddressBookServiceImpl(Arrays.asList(arrayOfPersons));
+		PersonContact personData = addressBookService.getPersonByName("Rahul");
+		String empJson = new Gson().toJson(personData);
+		RequestSpecification request = RestAssured.given();
+		request.header("Content-Type", "application/json");
+		Response response = request.delete("/persons/" + personData.id);
+		int statusCode = response.getStatusCode();
+		Assert.assertEquals(200, statusCode);
+		addressBookService.deletePerson(personData);
+		long entries = addressBookService.countEntries();
+		Assert.assertEquals(5, entries);
 	}
 }
