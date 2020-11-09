@@ -36,8 +36,7 @@ public class AddressBookRESTIOTest {
 		return arrayOfPersons;
 	}
 
-	@Test
-	public void givenNewEmployee_WhenAddedToJSONServer_ShouldMatchWith201StatusCodeAndCount() {
+	public void givenNewPerson_WhenAddedToJSONServer_ShouldMatchWith201StatusCodeAndCount() {
 		PersonContact[] arrayOfPersons = getPesonList();
 		AddressBookServiceImpl addressBookService;
 		addressBookService = new AddressBookServiceImpl(Arrays.asList(arrayOfPersons));
@@ -58,5 +57,26 @@ public class AddressBookRESTIOTest {
 		request.header("Content-Type", "application/json");
 		request.body(empJson);
 		return request.post("/persons");
+	}
+
+	@Test
+	public void givenMultiplePersons_WhenAddedToJSONServer_ShouldMatchWith201ResponseAndCount() {
+		PersonContact[] arrayOfPersons = getPesonList();
+		AddressBookServiceImpl addressBookService;
+		addressBookService = new AddressBookServiceImpl(Arrays.asList(arrayOfPersons));
+		PersonContact[] arrayOfNewPersons = {
+				new PersonContact(0, "Rahul", "ss", "a3afe", "vissa", "adnasd", "124334", "324545656", "daeas@cs.com"),
+				new PersonContact(0, "Rajesh", "ss", "a3afe", "vissa", "adnasd", "124334", "324543656", "daeas@cs.com"),
+				new PersonContact(0, "Rakesh", "ss", "a3afe", "vissa", "adnasd", "124334", "3245434656",
+						"daeas@cs.com") };
+		for (PersonContact person : Arrays.asList(arrayOfNewPersons)) {
+			Response response = addPersonToJsonServer(person);
+			int statusCode = response.getStatusCode();
+			Assert.assertEquals(201, statusCode);
+			person = new Gson().fromJson(response.asString(), PersonContact.class);
+			addressBookService.addPerson(person);
+		}
+		long entries = addressBookService.countEntries();
+		Assert.assertEquals(7, entries);
 	}
 }
