@@ -98,7 +98,7 @@ public class AddressBookRESTIOTest {
 	}
 	
 	@Test
-	public void givenPersonData_WhenDeleted_shouldMatchWith200ResponseCode() {
+	public void givenPersonData_WhenDeleted_shouldMatchWith200ResponseCodeAndCount() {
 		PersonContact[] arrayOfPersons = getPesonList();
 		AddressBookServiceImpl addressBookService;
 		addressBookService = new AddressBookServiceImpl(Arrays.asList(arrayOfPersons));
