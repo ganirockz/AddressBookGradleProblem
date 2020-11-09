@@ -13,8 +13,9 @@ public class AddressBookServiceImpl implements AddressBookService {
 	PersonServiceImpl person;
 	private Scanner sc;
 	AddressBookDBServiceImpl addressBookDBService = null;
-	public enum IOService{
-		DB_IO,REST_IO,FILE_IO;
+
+	public enum IOService {
+		DB_IO, REST_IO, FILE_IO;
 	}
 
 	public AddressBookServiceImpl(Scanner sc) {
@@ -116,18 +117,18 @@ public class AddressBookServiceImpl implements AddressBookService {
 		return list;
 	}
 
-	public void updatePersonData(String firstName, String phoneNumber,IOService ioService) {
-		if(ioService.equals(IOService.DB_IO)) {
-		int rowsAffected = addressBookDBService.updatePersonContact(firstName, phoneNumber);
-		if (rowsAffected == 1) {
-			for (PersonContact p : list) {
-				if (p.getFirstName().equals(firstName)) {
-					p.setPhone(phoneNumber);
-					break;
+	public void updatePersonData(String firstName, String phoneNumber, IOService ioService) {
+		if (ioService.equals(IOService.DB_IO)) {
+			int rowsAffected = addressBookDBService.updatePersonContact(firstName, phoneNumber);
+			if (rowsAffected == 1) {
+				for (PersonContact p : list) {
+					if (p.getFirstName().equals(firstName)) {
+						p.setPhone(phoneNumber);
+						break;
+					}
 				}
 			}
-		}}
-		else {
+		} else {
 			for (PersonContact p : list) {
 				if (p.getFirstName().equals(firstName)) {
 					p.setPhone(phoneNumber);
@@ -193,12 +194,16 @@ public class AddressBookServiceImpl implements AddressBookService {
 	}
 
 	public PersonContact getPersonByName(String name) {
-		for(PersonContact person:list) {
-			if(person.getFirstName().equals(name)) {
+		for (PersonContact person : list) {
+			if (person.getFirstName().equals(name)) {
 				return person;
 			}
 		}
 		return null;
+	}
+
+	public void deletePerson(PersonContact personData) {
+		list.remove(personData);
 	}
 
 }
