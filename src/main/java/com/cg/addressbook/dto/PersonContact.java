@@ -3,7 +3,7 @@ package com.cg.addressbook.dto;
 import java.util.Objects;
 
 public class PersonContact {
-	int id;
+	public int id;
 	private String firstName;
 	private String lastName;
 	private String address;

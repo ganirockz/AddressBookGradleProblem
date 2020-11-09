@@ -7,8 +7,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.cg.addressbook.dto.PersonContact;
+import com.cg.addressbook.service.AddressBookFileIOService;
 import com.cg.addressbook.service.impl.AddressBookServiceImpl;
 import com.google.gson.Gson;
+import com.cg.addressbook.service.impl.AddressBookServiceImpl.*;
+
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
@@ -59,7 +62,6 @@ public class AddressBookRESTIOTest {
 		return request.post("/persons");
 	}
 
-	@Test
 	public void givenMultiplePersons_WhenAddedToJSONServer_ShouldMatchWith201ResponseAndCount() {
 		PersonContact[] arrayOfPersons = getPesonList();
 		AddressBookServiceImpl addressBookService;
@@ -78,5 +80,21 @@ public class AddressBookRESTIOTest {
 		}
 		long entries = addressBookService.countEntries();
 		Assert.assertEquals(7, entries);
+	}
+	
+	@Test
+	public void givenNewPhoneNumberOfPerson_WhenUpdated_shouldMatchWith200ResponseAndCount() {
+		PersonContact[] arrayOfPersons = getPesonList();
+		AddressBookServiceImpl addressBookService;
+		addressBookService = new AddressBookServiceImpl(Arrays.asList(arrayOfPersons));
+		addressBookService.updatePersonData("Rahul","9876543210",IOService.REST_IO);
+		PersonContact personData = addressBookService.getPersonByName("Rahul");
+		String empJson = new Gson().toJson(personData);
+		RequestSpecification request = RestAssured.given();
+		request.header("Content-Type", "application/json");
+		request.body(empJson);
+		Response response = request.put("/persons/" + personData.id);
+		int statusCode = response.getStatusCode();
+		Assert.assertEquals(200, statusCode);
 	}
 }
